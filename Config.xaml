@@ -1,0 +1,17 @@
+﻿<Window x:Class="WPFAShopMgt23.Config"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFAShopMgt23"
+        mc:Ignorable="d"
+        Title="Config" Height="450" Width="450" Loaded="Window_Loaded">
+    <Canvas>
+        <Label Content="Server: " Height="35" Width="100" Canvas.Left="74" Canvas.Top="78"></Label>
+        <TextBox Name="serverTextBox" Text="{Binding Server}"  Width="200" Height="35" Padding="5"  Canvas.Left="199" Canvas.Top="78" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+        <Label Content="Database: " Height="35" Width="100" Canvas.Left="74" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
+        <TextBox Name="databaseTextBox" Text="{Binding Database}" Width="200" Height="35" Padding="5"  Canvas.Left="199" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
+        <Button x:Name="saveButton" Click="saveButton_Click" Width="80" Height="35" IsDefault="True" Content="Save" Canvas.Left="74" Canvas.Top="291" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Button x:Name="cancelButton" Click="cancelButton_Click" Width="80" Height="35" IsDefault="True" Content="Cancel" Canvas.Left="319" Canvas.Top="291" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Canvas>
+</Window>

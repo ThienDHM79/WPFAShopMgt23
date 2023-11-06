@@ -1,0 +1,17 @@
+﻿<Window x:Class="WPFAShopMgt23.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFAShopMgt23"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1024">
+    <Canvas>
+        <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product Management" Height="50" Width="200" FontSize="16" Background="#4fc4cf" Canvas.Left="400" Canvas.Top="190"></Button>
+        <Button x:Name="loadButton" Click="loadButton_Click" Width="100" Height="50" Content="Load" Canvas.Left="462" Canvas.Top="303" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ProgressBar x:Name="loadingProgress" Width="150" Height="10" Canvas.Left="437" Canvas.Top="408"></ProgressBar>
+        <Button x:Name="selectButton" Click="selectButton_Click" Width="100" Height="50" Content="Select" Canvas.Left="462" Canvas.Top="476"/>
+        <Button x:Name="OrderMgtButton" Click="OrderButton_Click" Content="Order Management" Foreground="white" FontSize="16" Background="#0c356a" Height="50" Width="200"  Canvas.Left="400" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+
+    </Canvas>
+</Window>

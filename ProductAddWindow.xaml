@@ -1,0 +1,39 @@
+﻿<Window x:Class="WPFAShopMgt23.ProductAddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFAShopMgt23"
+        mc:Ignorable="d"
+        Title="ProductChangeWindow" Height="560" Width="640" Loaded="Window_Loaded">
+    <Canvas>
+        <Label Content="Update Product" FontSize="20" FontWeight="Bold" Canvas.Left="256" VerticalAlignment="Center"></Label>
+        <Canvas Margin="5" Canvas.Top="100">
+            <Label Content="Ten san pham" HorizontalAlignment="Left" Canvas.Left="11" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="ProductNameTextBox" Height="30" Width="250" Canvas.Left="113" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Content="Loai san pham" Canvas.Left="9" Canvas.Top="44"></Label>
+            <ComboBox x:Name="ProductCateComboBox" 
+                      Height="30" Width="150" Canvas.Left="213" Canvas.Top="42" 
+                      HorizontalAlignment="Left" VerticalAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="So luong ban dau" Canvas.Left="11" Canvas.Top="86" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox x:Name="ProductQtyTextBox" PreviewTextInput="PreviewTextInputQty" Height="30" Width="200" Canvas.Left="163" Canvas.Top="86" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+            <Label Content="Gia" Width="50" Canvas.Left="11" Canvas.Top="134"></Label>
+            <TextBox x:Name="ProductPriceTextBox" Height="30" Width="200" Canvas.Left="163" Canvas.Top="134" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
+        </Canvas>
+        
+        <Image d:Source="/images/laptop/laptop-1.jpg" Width="200" Height="200" Canvas.Left="410" Canvas.Top="66"></Image>
+        <TextBox Visibility="Hidden" x:Name="ProductImagePathTextBox" Width="200" Height="30"></TextBox>
+        <Button x:Name="ImageSrcButton" Width="80" Height="30" Content="Browse" Canvas.Left="470" Canvas.Top="271"></Button>
+        
+        <Canvas Canvas.Top="400">
+            <Button x:Name="ProductAddButton" Click="ProductAddConfirmButton_Click" Content="Update" Height="40" Width="100" Canvas.Left="125"></Button>
+            <Button x:Name="ProductCancelButton" Click="CancelButton_Click" Content="Cancel" Height="40" Width="100" Canvas.Left="431" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+        </Canvas>
+    </Canvas>
+</Window>
