@@ -17,9 +17,9 @@ namespace WPFAShopMgt23.Services
             _dbcontext = context;
         }
         //phase 1: not use viewmodel
-        public BindingList<Product> GetAllProducts()
+        public List<Product> GetAllProducts()
         {
-            return new BindingList<Product>(_dbcontext.Products.ToList());
+            return new List<Product>(_dbcontext.Products.ToList());
         }
         public Product GetProductById(int id) =>_dbcontext.Products.First(p => p.Id == id);
         public List<Product> GetProductsByName(string SearchKey)
@@ -29,16 +29,30 @@ namespace WPFAShopMgt23.Services
             }
             return _dbcontext.Products.Where(p => p.Name.Contains(SearchKey)).ToList();
         }
-        /*
+        
         public List<Product> GetProductsByCatId(int CategoryKey)
         {
             if (CategoryKey == 0)
             { 
                 return _dbcontext.Products.ToList();
             }
-            return _dbcontext.
+            return _dbcontext.Products.Where(p => p.CatId == CategoryKey).ToList();
         }
-        */
+        
+        public List<Product> GetProductsByNameCategory(string NameKey, int CategoryKey)
+        {
+            if (NameKey.IsNullOrEmpty())
+            {
+                return GetProductsByCatId(CategoryKey);
+            }
+            if (CategoryKey == 0)
+            {
+                return GetProductsByName(NameKey);
+            }
+            return _dbcontext.Products.Where(p => p.Name.Contains(NameKey))
+                                .Where(p => p.CatId == CategoryKey).ToList();
+        }
+        
 
     }
 }
