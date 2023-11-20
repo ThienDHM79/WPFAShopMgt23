@@ -26,12 +26,13 @@ namespace WPFAShopMgt23
         {
             InitializeComponent();
         }
+
         ShopDbContext _db;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _db = new ShopDbContext();
             ProductCateComboBox.ItemsSource = _db.Categories.ToList();
-
+            ProductCateComboBox.SelectedIndex = 0;
             ProductImagePathTextBox.Text = "/image/default.png";
         }
         private void PreviewTextInputQty(object sender, TextCompositionEventArgs e)
@@ -77,8 +78,6 @@ namespace WPFAShopMgt23
                 await _db.SaveChangesAsync();
                 MessageBox.Show(
                     $"Save succesfull. {product.Name}: {CateName} : ${product.Price}");
-                var productHome = new ProductWindow();
-                productHome.Show();
                 this.Close();
             }
 

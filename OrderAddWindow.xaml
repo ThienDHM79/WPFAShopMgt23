@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAShopMgt23"
         mc:Ignorable="d"
-        Title="OrderAddWindow" Height="800" Width="1540">
+        Title="OrderAddWindow" Height="800" Width="1540" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
+    </Window.Resources>
     <Canvas x:Name="OrderDetails">
         <Button x:Name="BackButton" Width="50" Height="50" Background="White" Click="backButton_Click">
             <Image Source="/icon/back.png" Width="40" Height="40"></Image>
@@ -27,10 +30,10 @@
                 <Label Content="So Dien Thoai"></Label>
                 <TextBox x:Name="PurchasePhoneNumTextBox" Width="150" Height="30" HorizontalAlignment="Left"/>
                 <Label Content="Danh sach Chi tiet Don" FontSize="16" FontWeight="Bold"></Label>
-                <DataGrid x:Name="PurchaseItemGrid" Margin="10">
+                <DataGrid x:Name="PurchaseItemGrid" ItemsSource="{Binding _OrderLineList}" Margin="10">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Product Name" Width="200"/>
-                        <DataGridTextColumn Header="Price" Width="100"/>
+                        <DataGridTextColumn Header="Product Name" Binding="{Binding ProductName}" Width="200"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="100"/>
                         <DataGridTextColumn Header="Qty" Width="50"/>
                         <DataGridTextColumn Header="SubTotal" Width="150"/>
                         <DataGridTemplateColumn Header="Action" Width="50">
@@ -54,46 +57,55 @@
 
         <Canvas x:Name="SearchItemOrder" Height="700" Width="800" HorizontalAlignment="Left" Canvas.Top="52" Canvas.Left="740" VerticalAlignment="Center">
             <Label Content="Search" FontSize="16" FontWeight="Bold"></Label>
-            
+
             <StackPanel x:Name="SearchBar" Canvas.Top="50" Canvas.Left="107" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Product Name" VerticalAlignment="Center"/>
                         <TextBox x:Name="ProductNameTextBox" Margin="10" Height="40" Width="400" FontSize="14"/>
-                        <Image Source="/icon/search.png" Height="50"></Image>
+                        <Button Click="SearchProductButton_Click" Background="White">
+                            <Image Source="/icon/search.png" Height="50"></Image>
+                        </Button>
+
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Category" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="ComboBoxCategory" Margin="10" Height="40" Width="200"></ComboBox>
+                        <ComboBox x:Name="CategoryCombobox" Margin="10" Height="40" Width="200">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
 
                 </StackPanel>
             </StackPanel>
-            
-            <StackPanel x:Name="AddBar" Orientation="Vertical" Canvas.Left="70" Canvas.Top="185" Width="600">
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="100" Height="100" d:Source="/images/laptop/laptop-1.jpg"/>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="laptop dell inspiron 15" Foreground="Blue"/>
-                        <TextBlock Text="loai laptop" FontWeight="Bold"/>
-                        <TextBlock Text="gia 10 000 000 VND"/>
-                    </StackPanel>
-
-                    <TextBox x:Name="ItemQty" PreviewTextInput="NumberValidationTextBox" Width="50" Height="50" Margin="50 0 0 0"/>
-                    <Button x:Name="AddItemButton" Width="100" Height="50" Margin="100 10 10 10" Content="Add" FontSize="20"/>
-                </StackPanel>
+            <Button x:Name="SelectButton" Click="ChooseProductButton_Click" Content="Select" Height="50" Width="100" 
+                        Background="#0C356A" Foreground="White" FontWeight="Bold" Canvas.Left="30" Canvas.Top="215" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+            <StackPanel Canvas.Top="210" Width="200" Height="80" Canvas.Left="200">
+                <TextBlock x:Name="SelectedProductName" Width="200" Height="40" d:Text="laptop dell" Foreground="Blue" FontWeight="Bold" TextWrapping="Wrap"/>
+                <TextBlock x:Name="SelectedProductPrice" d:Text="10 000 000" FontWeight="Bold" FontSize="14"/>
+                <TextBlock x:Name="SelectedProductStock">
+                    <Run>So luong ton: </Run>
+                    <Run x:Name="StockQty"></Run>
+                </TextBlock>
             </StackPanel>
-            
-            <ListView Height="400" Width="780" HorizontalAlignment="Center" Canvas.Top="290" VerticalAlignment="Top">
+            <Label Content="Qty" Canvas.Left="476" Canvas.Top="232" FontSize="16"></Label>
+            <TextBox x:Name="ItemQty" PreviewTextInput="NumberValidationTextBox" Width="50" Height="50" Canvas.Left="510" Canvas.Top="220"/>
+            <Button x:Name="AddItemButton" Click="AddItemButton_Click" Width="100" Height="50" Content="Add" FontSize="20" Canvas.Left="600" Canvas.Top="220"/>
+            <ListView x:Name="BrowseProductListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="400" Width="780" HorizontalAlignment="Center" Canvas.Top="290" VerticalAlignment="Top">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="100" Height="100" d:Source="/images/laptop/laptop-1.jpg"/>
+                            <Image Width="100" Height="100" Source="{Binding ImagePath, Converter={StaticResource absoluteConverter}}"/>
                             <StackPanel Orientation="Vertical">
-                                <TextBlock Text="laptop dell inspiron 15" Foreground="Blue"></TextBlock>
-                                <TextBlock Text="loai laptop" FontWeight="Bold"></TextBlock>
-                                <TextBlock Text="nha sx dell"></TextBlock>
-                                <TextBlock Text="gia 10 000 000 VND"></TextBlock>
+                                <TextBlock Text="{Binding Name}" Foreground="Blue" Height="40" Width="200" TextWrapping="Wrap" Margin="5"></TextBlock>
+                                <TextBlock FontWeight="Bold" Margin="5">
+                                    <Run>So luong ton: </Run>
+                                    <Run Text="{Binding Qty}"></Run>
+                                </TextBlock>
+                                <TextBlock Text="{Binding Price}" Margin="5"></TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -105,16 +117,19 @@
                 </ListView.ItemsPanel>
                 <d:ListViewItem>
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="100" Height="100" d:Source="/images/laptop/laptop-1.jpg"/>
+                        <Image Width="100" Height="100" d:Source="/image/laptop/laptop-1.jpg"/>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="laptop dell inspiron 15" Foreground="Blue"></TextBlock>
-                            <TextBlock Text="loai laptop" FontWeight="Bold"></TextBlock>
-                            <TextBlock Text="gia 10 000 000 VND"></TextBlock>
+                            <TextBlock Text="laptop dell" Foreground="Blue" Height="20" Margin="5"></TextBlock>
+                            <TextBlock FontWeight="Bold" Margin="5">
+                                    <Run>So luong ton: </Run>
+                                    <Run Text="10"></Run>
+                            </TextBlock>
+                            <TextBlock Text="2.000.000 vnd" Margin="5"></TextBlock>
                         </StackPanel>
                     </StackPanel>
                 </d:ListViewItem>
             </ListView>
-            
+
         </Canvas>
     </Canvas>
 

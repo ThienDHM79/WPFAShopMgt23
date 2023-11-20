@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace WPFAShopMgt23;
 
-public partial class Product
+public partial class Product: INotifyPropertyChanged, ICloneable
 {
     public int Id { get; set; }
 
@@ -22,4 +23,9 @@ public partial class Product
     public virtual Category? Cat { get; set; }
 
     public virtual ICollection<PurchaseDetail> PurchaseDetails { get; set; } = new List<PurchaseDetail>();
+
+    public object Clone()
+    {
+        return MemberwiseClone();
+    }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="icon\back.png" />
+    <None Remove="icon\choose.png" />
     <None Remove="icon\delete.png" />
     <None Remove="icon\edit.png" />
     <None Remove="icon\search.png" />
@@ -29,6 +30,9 @@
   <ItemGroup>
     <Resource Include="icon\back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="icon\choose.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="icon\delete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

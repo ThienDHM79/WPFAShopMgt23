@@ -33,8 +33,12 @@
             <StackPanel Orientation="Horizontal" >
                 <Button x:Name="AddButton" Click="AddProductButton_Click" Content="Add Product" Height="50" Width="100" 
                         Background="#0C356A" Foreground="White" FontWeight="Bold"></Button>
+                <Button x:Name="EditButton" IsEnabled="{Binding SelectedItems.Count}" Click="EditProductButton_Click" Content="Edit Product" Margin="200 0 0 0" Height="50" Width="100" 
+                        Background="#ED7D31" FontWeight="Bold"></Button>
+                <Button x:Name="DeleteButton" Click="DeleteProductButton_Click" Content="Delete Product" Margin="300 0 0 0" Height="50" Width="100" 
+                        Background="#C70039" FontWeight="Bold"></Button>
             </StackPanel>
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="500" Width="860" x:Name="ProductsListView">
+            <ListView x:Name="ProductsListView" SelectionChanged="ProductListView_SelectionChanged" Height="500" Width="860"  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>

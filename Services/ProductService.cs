@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace WPFAShopMgt23.Services
 {
@@ -21,7 +22,7 @@ namespace WPFAShopMgt23.Services
         {
             return new List<Product>(_dbcontext.Products.ToList());
         }
-        public Product GetProductById(int id) =>_dbcontext.Products.First(p => p.Id == id);
+        public Product GetProductById(int id) =>_dbcontext.Products.AsNoTracking().First(p => p.Id == id);
         public List<Product> GetProductsByName(string SearchKey)
         {
             if (SearchKey.IsNullOrEmpty() ){

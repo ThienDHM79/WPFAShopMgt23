@@ -24,6 +24,7 @@ namespace WPFAShopMgt23
     {
         ShopDbContext _db;
         ProductService _productService;
+        Product _product; // cho editing
         public ProductWindow()
         {
             InitializeComponent();
@@ -48,11 +49,14 @@ namespace WPFAShopMgt23
             };
             _categories.Insert(0, AllCategory);
             categoryComboBox.SelectedIndex = 0;
+            //default disable edit, delete before select
+            EditButton.IsEnabled = false;
+            DeleteButton.IsEnabled = false; 
         }
 
         private void _loadAllProducts()
         {
-            _products = _productService.GetAllProducts();
+            _products = new BindingList<Product>(_productService.GetAllProducts());
             ProductsListView.ItemsSource = _products;
         }
 
@@ -60,7 +64,6 @@ namespace WPFAShopMgt23
         {
             var addProductScreen = new ProductAddWindow();
             addProductScreen.Show();
-            this.Close();
         }
         
 
@@ -82,11 +85,11 @@ namespace WPFAShopMgt23
                 {
                     if (categoryComboBox.SelectedIndex == 0)
                     {
-                        _products = _db.Products.ToList();
+                        _products = _productService.GetAllProducts();
                     }
                     else
                     {
-                        _products = _db.Products.Where(p => p.CatId == categoryComboBox.SelectedIndex).ToList();
+                        _products = _productService.GetProductsByCatId(categoryComboBox.SelectedIndex);
                     }
 
                 }
@@ -98,8 +101,7 @@ namespace WPFAShopMgt23
                     }
                     else
                     {
-                        _products = _db.Products.Where(p => p.Name.Contains(ProductNameTextBox.Text))
-                                .Where(p => p.CatId == categoryComboBox.SelectedIndex).ToList();
+                        _products = _productService.GetProductsByNameCategory(ProductNameTextBox.Text, categoryComboBox.SelectedIndex);
                     }
 
                 }
@@ -128,13 +130,31 @@ namespace WPFAShopMgt23
                     {
                         _db.Products.Remove(deleteproduct);
                         _db.SaveChanges();
-                        //screen auto update deleted
-                        //_products.Remove(deleteproduct);
                     }
                 }
                 _loadAllProducts();
             }
 
+        }
+
+        private void EditProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            //lay product tu selected
+            _product = ProductsListView.SelectedItem as Product;
+            var editProductScreen = new ProductEditWindow(_product);
+            //editProductScreen.Show();
+            if (editProductScreen.ShowDialog() == true)
+            {
+                _product = (Product) editProductScreen.EditingProduct.Clone();
+                
+            }
+            this.Close();
+        }
+
+        private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditButton.IsEnabled = (sender != null);
+            DeleteButton.IsEnabled = (sender != null);
         }
     }
 }

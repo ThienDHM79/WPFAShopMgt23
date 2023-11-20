@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAShopMgt23"
         mc:Ignorable="d"
-        Title="ProductChangeWindow" Height="560" Width="640" Loaded="Window_Loaded">
+        Title="ProductAddWindow" Height="560" Width="640" Loaded="Window_Loaded">
     <Canvas>
-        <Label Content="Update Product" FontSize="20" FontWeight="Bold" Canvas.Left="256" VerticalAlignment="Center"></Label>
+        <Label Content="Add Product" FontSize="20" FontWeight="Bold" Canvas.Left="256" VerticalAlignment="Center"></Label>
         <Canvas Margin="5" Canvas.Top="100">
             <Label Content="Ten san pham" HorizontalAlignment="Left" Canvas.Left="11" VerticalAlignment="Center"></Label>
             <TextBox x:Name="ProductNameTextBox" Height="30" Width="250" Canvas.Left="113" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -27,12 +27,12 @@
             <TextBox x:Name="ProductPriceTextBox" Height="30" Width="200" Canvas.Left="163" Canvas.Top="134" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBox>
         </Canvas>
         
-        <Image d:Source="/images/laptop/laptop-1.jpg" Width="200" Height="200" Canvas.Left="410" Canvas.Top="66"></Image>
+        <Image d:Source="/image/laptop/laptop-1.jpg" Width="200" Height="200" Canvas.Left="410" Canvas.Top="66"></Image>
         <TextBox Visibility="Hidden" x:Name="ProductImagePathTextBox" Width="200" Height="30"></TextBox>
         <Button x:Name="ImageSrcButton" Width="80" Height="30" Content="Browse" Canvas.Left="470" Canvas.Top="271"></Button>
         
         <Canvas Canvas.Top="400">
-            <Button x:Name="ProductAddButton" Click="ProductAddConfirmButton_Click" Content="Update" Height="40" Width="100" Canvas.Left="125"></Button>
+            <Button x:Name="ProductAddButton" Click="ProductAddConfirmButton_Click" Content="Add" Height="40" Width="100" Canvas.Left="125"></Button>
             <Button x:Name="ProductCancelButton" Click="CancelButton_Click" Content="Cancel" Height="40" Width="100" Canvas.Left="431" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
         </Canvas>
     </Canvas>
