@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using WPFAShopMgt23.Model;
 
 namespace WPFAShopMgt23.Services
 {
@@ -13,7 +15,7 @@ namespace WPFAShopMgt23.Services
         public CategoryService(ShopDbContext context) {
             _db = context;
         }
-        public List<Category> GetAllCategories() => _db.Categories.ToList();
+        public List<Category> GetAllCategories() => _db.Categories.AsNoTracking().ToList();
         public  int GetCategoryIdByName(string categoryName)
         {
             return _db.Categories.Where(cate => cate.Name == categoryName).Select(c => c.Id).FirstOrDefault();

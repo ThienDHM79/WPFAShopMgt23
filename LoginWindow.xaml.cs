@@ -48,7 +48,6 @@ namespace WPFAShopMgt23
 
         private async void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            //design - turn off sql
             AppConfig.Username = usernameTextBox.Text;
             AppConfig.Password = passwordBox.Password;
             var connectionString = AppConfig.ConnectionString();

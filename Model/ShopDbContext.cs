@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace WPFAShopMgt23;
+namespace WPFAShopMgt23.Model;
 
 public partial class ShopDbContext : DbContext
 {
@@ -29,8 +29,8 @@ public partial class ShopDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-       // => optionsBuilder.UseSqlServer("Data Source=THIENDAO; Initial Catalog=ShopDB; TrustServerCertificate=True; User Id=sa; Password=admin");
-       => optionsBuilder.UseSqlServer(AppConfig.ConnectionString());
+        // => optionsBuilder.UseSqlServer("Data Source=THIENDAO; Initial Catalog=ShopDB; TrustServerCertificate=True; User Id=sa; Password=admin");
+        => optionsBuilder.UseSqlServer(AppConfig.ConnectionString());
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -43,32 +43,34 @@ public partial class ShopDbContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("username");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.Rolename)
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("rolename");
+            entity.Property(e => e.UpdatedDate).HasColumnType("date");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
             entity.ToTable("Category");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.Name).HasMaxLength(250);
+            entity.Property(e => e.UpdatedDate).HasColumnType("date");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.ToTable("Customer");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Address).HasColumnType("text");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.Name).HasColumnType("text");
             entity.Property(e => e.Tel).HasColumnType("text");
+            entity.Property(e => e.UpdatedDate).HasColumnType("date");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -77,9 +79,11 @@ public partial class ShopDbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CatId).HasColumnName("CatID");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.ImagePath).HasColumnType("text");
             entity.Property(e => e.Name).HasMaxLength(250);
             entity.Property(e => e.Price).HasColumnType("text");
+            entity.Property(e => e.UpdatedDate).HasColumnType("date");
 
             entity.HasOne(d => d.Cat).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CatId)
@@ -90,10 +94,10 @@ public partial class ShopDbContext : DbContext
         {
             entity.ToTable("Purchase");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
             entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.UpdatedDate).HasColumnType("date");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Purchases)
                 .HasForeignKey(d => d.CustomerId)
@@ -105,9 +109,7 @@ public partial class ShopDbContext : DbContext
         {
             entity.ToTable("PurchaseDetail");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.PurchaseId).HasColumnName("PurchaseID");
 

@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
+using WPFAShopMgt23.Model;
 
 namespace WPFAShopMgt23.Services
 {
     public class ProductService
     {
         private readonly ShopDbContext _dbcontext;
+        
         public ProductService (ShopDbContext context)
         {
             _dbcontext = context;
@@ -54,6 +56,14 @@ namespace WPFAShopMgt23.Services
                                 .Where(p => p.CatId == CategoryKey).ToList();
         }
         
+        public List<Product> GetProductsByPage(int currPage, int PageSize = 8)
+        {
+            return _dbcontext.Products.Skip((currPage - 1) * PageSize).Take(PageSize).ToList();
+        }
 
+        public int GetCateIdByProductId(int ProductId)
+        {
+            return (int)_dbcontext.Products.First(p => p.Id == ProductId).CatId;
+        }
     }
 }

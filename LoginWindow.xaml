@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAShopMgt23"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="450" Loaded="Window_Loaded">
+        Title="LoginWindow" Height="450" Width="450" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Canvas>
         <Label Content="Username:" Canvas.Left="58" Canvas.Top="106"></Label>
-        <TextBox x:Name="usernameTextBox" Text="{Binding Username}" Width="200" Height="35" Padding="5" Canvas.Left="162" Canvas.Top="101"></TextBox>
+        <TextBox x:Name="usernameTextBox" Width="200" Height="35" Padding="5" Canvas.Left="162" Canvas.Top="101"></TextBox>
         <Label Content="Password:" Canvas.Left="58" Canvas.Top="174"/>
         <PasswordBox x:Name="passwordBox" PasswordChar="*" Width="200" Height="35" Padding="5" Canvas.Left="162" Canvas.Top="169" HorizontalAlignment="Center" VerticalAlignment="Top"></PasswordBox>
         <CheckBox x:Name="rememberPassCheckBox" Content="Remember password" Canvas.Left="162" Canvas.Top="247"></CheckBox>

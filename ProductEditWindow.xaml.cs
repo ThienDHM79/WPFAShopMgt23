@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPFAShopMgt23.Model;
 using WPFAShopMgt23.Services;
 
 namespace WPFAShopMgt23

@@ -1,0 +1,78 @@
+﻿<Window x:Class="WPFAShopMgt23.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:rh ="http://schemas.rollinghours.com/wpf"
+        xmlns:local="clr-namespace:WPFAShopMgt23"
+        mc:Ignorable="d"
+        Title="OrderWindow" Height="860" Width="1000" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Canvas Margin="0,0,0,1">
+        <Label Content="Search Order" FontSize="16" FontWeight="Bold" Canvas.Left="160" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Border BorderBrush="Black" BorderThickness="1" Canvas.Left="10" Canvas.Top="52">
+            <WrapPanel Orientation="Vertical">
+                <rh:DateRangePicker x:Name="OrderDatePicker" From="{Binding DateFrom}"
+                    To="{Binding DateTo}"
+                    KindOfRange="{Binding DateRangeKind}"
+                    Orientation="Vertical" />
+                <Button x:Name="SearchOrderButton" Click="SearchOrderButton_Click" Style="{StaticResource MaterialDesignRaisedButton}" Content="Search" Margin="5"></Button>
+                <Button x:Name="ViewDetailButton" Click="ViewOrderButton_Click" Content="View Details" Background="#20c997" Margin="5"></Button>
+
+                <DataGrid x:Name="OrderDataGrid" IsReadOnly="True" ItemsSource="{Binding purchaseList}" AutoGenerateColumns="False" Margin="10" RowHeight="50" Width="400">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Ngay Tao" Binding="{Binding CreatedDate}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Ten KH" Binding="{Binding Customer.Name }"></DataGridTextColumn>
+                        <DataGridTextColumn Header="SDT"  Binding="{Binding Customer.Tel }"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Tong Tien"  Binding="{Binding FinalTotal }" ></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </WrapPanel>
+
+        </Border>
+
+        <Label Content="Edit/Delete Order" FontSize="16" FontWeight="Bold" Canvas.Left="660" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Border BorderBrush="Black" BorderThickness="1" Canvas.Left="442" Canvas.Top="10">
+            <StackPanel Height="700" Width="536" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="42">
+                <StackPanel x:Name="OrderHeader" Margin="10">
+                    <Label Style="{StaticResource MaterialDesignLabel}" Content="Chi tiet don hang" FontSize="20" FontWeight="Bold"></Label>
+                    <Label Content="Thong tin don hang" FontWeight="Bold" FontSize="16" Canvas.Left="33" Canvas.Top="36"></Label>
+                    <Label Content="Ngay Tao" Canvas.Left="40" Canvas.Top="67"></Label>
+                    <DatePicker Height="30" x:Name="CreateDatePurchasePicker" Text="{Binding CreatedDate}" BorderBrush="Black" BorderThickness="1" Width="200"  HorizontalAlignment="Left"></DatePicker>
+                    <Label Content="Total"></Label>
+                    <TextBox Style="{StaticResource MaterialDesignTextBox}" IsReadOnly="True" x:Name="PurchaseTotalTextBox" Text="{Binding FinalTotal, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="30" HorizontalAlignment="Left" Background="white"></TextBox>
+                    <Label Content="Thong tin Khach Hang" FontSize="16" FontWeight="Bold"/>
+                    <Label Content="Ten Khach Hang"></Label>
+                    <TextBox  x:Name="PurchaseCustomerNameTextBox" Text="{Binding Customer.Name, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="30" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignTextBox}"></TextBox>
+                    <Label Content="Dia chi"></Label>
+                    <TextBox x:Name="PurchaseAddressTextBox" Text="{Binding Customer.Address}" Width="400" Height="30" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignTextBox}"/>
+                    <Label Content="So Dien Thoai"></Label>
+                    <TextBox x:Name="PurchasePhoneNumTextBox" Text="{Binding Customer.Tel}" Width="150" Height="30" HorizontalAlignment="Left"  Style="{StaticResource MaterialDesignTextBox}"/>
+                    <Label Content="Danh sach Chi tiet Don" FontSize="16" FontWeight="Bold"></Label>
+                    <DataGrid x:Name="PurchaseItemGrid" ItemsSource="{Binding PurchaseLineList}" RowHeight="40" AutoGenerateColumns="False" Margin="10" Width="500">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Product Name" Binding="{Binding Product.Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" IsReadOnly="True" Width="100"/>
+                            <DataGridTextColumn Header="Qty" Binding="{Binding Qty}" Width="30"/>
+                            <DataGridTextColumn Header="SubTotal" Binding="{Binding Total}" IsReadOnly="True" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Button x:Name="EditOrderButton" Click="EditOrderButton_Click" Content="Edit"  Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#ffc107" Foreground="Black" Width="100" Canvas.Left="442" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+        <Button x:Name="DeleteOrderButton" Click="DeleteOrderButton_Click" Content="Delete" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#dc3545" Foreground="Black" Width="100"  Canvas.Left="160" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+        <Button Content="Save" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#20c997" Foreground="Black" Width="100" Canvas.Left="630" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
+        <Button x:Name="CancelEditButton" Click="CancelEditButon_Click" Content="Cancel" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#adb5bd" Foreground="Black" Width="100" Canvas.Left="803" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
+    </Canvas>
+</Window>

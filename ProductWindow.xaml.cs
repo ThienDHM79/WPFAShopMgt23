@@ -13,7 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPFAShopMgt23.Model;
 using WPFAShopMgt23.Services;
+using WPFAShopMgt23.ViewModel;
 
 namespace WPFAShopMgt23
 {
@@ -25,6 +27,8 @@ namespace WPFAShopMgt23
         ShopDbContext _db;
         ProductService _productService;
         Product _product; // cho editing
+
+        public int CurrPage = 1; // phan trang
         public ProductWindow()
         {
             InitializeComponent();
@@ -32,12 +36,14 @@ namespace WPFAShopMgt23
             _db = new ShopDbContext();
             //initiate service
             _productService = new ProductService(_db);
+
+            this.DataContext = CurrPage;
         }
         BindingList<Product> _products;
         BindingList<Category> _categories;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _loadAllProducts();
+            _LoadPage(1);
 
             _categories = new BindingList<Category>(_db.Categories.ToList());
             categoryComboBox.ItemsSource = _categories;
@@ -51,7 +57,14 @@ namespace WPFAShopMgt23
             categoryComboBox.SelectedIndex = 0;
             //default disable edit, delete before select
             EditButton.IsEnabled = false;
-            DeleteButton.IsEnabled = false; 
+            DeleteButton.IsEnabled = false;
+
+            this.DataContext = CurrPage;
+        }
+
+        private void _LoadPage(int currPage)
+        {
+            ProductsListView.ItemsSource = _productService.GetProductsByPage(currPage,12);
         }
 
         private void _loadAllProducts()
@@ -105,8 +118,29 @@ namespace WPFAShopMgt23
                     }
 
                 }
-                //
                 ProductsListView.ItemsSource = _products;
+                //check for price range
+                if (string.IsNullOrEmpty(LowestPriceTextBox.Text))
+                {
+                    if (!string.IsNullOrEmpty(HighestPriceTextBox.Text))
+                    {
+                        ProductsListView.ItemsSource = _products.Where(p => p.PriceInt <= int.Parse(HighestPriceTextBox.Text));
+                    }
+                }
+                if (string.IsNullOrEmpty(HighestPriceTextBox.Text))
+                {
+                    if (!string.IsNullOrEmpty(LowestPriceTextBox.Text))
+                    {
+                        ProductsListView.ItemsSource = _products.Where(p => p.PriceInt >= int.Parse(LowestPriceTextBox.Text));
+                    }
+                }
+                if (!string.IsNullOrEmpty(HighestPriceTextBox.Text) && !string.IsNullOrEmpty(LowestPriceTextBox.Text))
+                {
+                    ProductsListView.ItemsSource = _products.Where(p =>
+                     p.PriceInt >= int.Parse(LowestPriceTextBox.Text) &&
+                     p.PriceInt <= int.Parse(HighestPriceTextBox.Text));
+                }
+                
             }
             else
             {
@@ -155,6 +189,50 @@ namespace WPFAShopMgt23
         {
             EditButton.IsEnabled = (sender != null);
             DeleteButton.IsEnabled = (sender != null);
+        }
+
+
+
+        PaginationView paginate = new PaginationView();
+        private void FirstPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            _LoadPage(1);
+        }
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CurrPage++;
+            _LoadPage(CurrPage);
+        }
+        private void PrevPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            while (CurrPage >=2)
+            {
+                CurrPage--;
+                _LoadPage(CurrPage);
+            }
+        }
+        private void LastPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            var ProductList = _productService.GetAllProducts();
+            paginate = new PaginationView(ProductList);
+            _LoadPage(paginate.TotalPage);
+        }
+
+        private void PreviewInputNum(object sender, TextCompositionEventArgs e)
+        {
+            Helper.PreviewTextInputQty(sender, e);
+        }
+
+        private void PriceAscButton_Click(object sender, RoutedEventArgs e)
+        {
+            var curList = ProductsListView.Items.Cast<Product>().OrderBy(p => p.PriceInt).ToList();
+            ProductsListView.ItemsSource = curList;
+        }
+
+        private void PriceDescButton_Click(object sender, RoutedEventArgs e)
+        {
+            var curList = ProductsListView.Items.Cast<Product>().OrderByDescending(p => p.PriceInt).ToList();
+            ProductsListView.ItemsSource = curList;
         }
     }
 }

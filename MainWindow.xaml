@@ -3,15 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rh ="http://schemas.rollinghours.com/wpf"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:WPFAShopMgt23"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024">
+        Title="MainWindow" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Canvas>
-        <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product Management" Height="50" Width="200" FontSize="16" Background="#4fc4cf" Canvas.Left="400" Canvas.Top="190"></Button>
-        <Button x:Name="loadButton" Click="loadButton_Click" Width="100" Height="50" Content="Load" Canvas.Left="462" Canvas.Top="303" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ProgressBar x:Name="loadingProgress" Width="150" Height="10" Canvas.Left="437" Canvas.Top="408"></ProgressBar>
-        <Button x:Name="selectButton" Click="selectButton_Click" Width="100" Height="50" Content="Select" Canvas.Left="462" Canvas.Top="476"/>
-        <Button x:Name="OrderMgtButton" Click="OrderButton_Click" Content="Order Management" Foreground="white" FontSize="16" Background="#0c356a" Height="50" Width="200"  Canvas.Left="400" Canvas.Top="84" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+        <Button x:Name="OrderMgtButton" Click="OrderButton_Click" Content="Order Management" Foreground="white" FontSize="16" Background="#0c356a" Height="50" Width="200"  Canvas.Left="100" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
+        <WrapPanel Width="460" Orientation="Vertical" Canvas.Top="90" Margin="10 0 0 10">
+            <WrapPanel Orientation="Horizontal">
+                <rh:DateRangePicker x:Name="OrderDatePicker"
+                    KindOfRange="{Binding DateRangeKind}"
+                    Orientation="Vertical" />
+                <Button x:Name="ViewDateRngButton" Click="UpdateDateRngChart_Click" Content="View" Margin="10" Width="100"></Button>
+            </WrapPanel>
+            <lvc:PieChart x:Name="DateRangePieChart" Series="{Binding SalesCollection}" Width="150" Height="150"
+                          LegendLocation="Top">
+                <lvc:PieChart.DataTooltip>
+                    <lvc:DefaultTooltip BulletSize="14"/>
+                </lvc:PieChart.DataTooltip>
+            </lvc:PieChart>
+            
+            <WrapPanel Orientation="Horizontal">
+                <Label Content="Week" FontWeight="Bold"></Label>
+                <TextBox x:Name="WeekTextBox" PreviewTextInput="PreviewTextInputNum" Text="46" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
+                <Button x:Name="ViewWeekButton" Click="ViewWeekChartButton_Click" Content="View" Margin="200 0 0 0"></Button>
+            </WrapPanel>
+            <lvc:PieChart x:Name="WeekPieChart" Series="{Binding SalesCollection}" Width="150" Height="150"
+                          LegendLocation="Top">
+                <lvc:PieChart.DataTooltip>
+                    <lvc:DefaultTooltip BulletSize="14"/>
+                </lvc:PieChart.DataTooltip>
+            </lvc:PieChart>
+        </WrapPanel>
+        <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product Management" Height="50" Width="200" FontSize="16" Background="#4fc4cf" Canvas.Left="737" Canvas.Top="10"></Button>
 
     </Canvas>
 </Window>

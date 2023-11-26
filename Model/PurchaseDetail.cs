@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WPFAShopMgt23;
+namespace WPFAShopMgt23.Model;
 
 public partial class PurchaseDetail
 {

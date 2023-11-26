@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace WPFAShopMgt23;
+namespace WPFAShopMgt23.Model;
 
-public partial class Product: INotifyPropertyChanged, ICloneable
+public partial class Product: ICloneable, INotifyPropertyChanged
 {
     public int Id { get; set; }
 
@@ -19,6 +19,10 @@ public partial class Product: INotifyPropertyChanged, ICloneable
     public string? ImagePath { get; set; }
 
     public int? PriceInt { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdatedDate { get; set; }
 
     public virtual Category? Cat { get; set; }
 

@@ -33,10 +33,18 @@ namespace WPFAShopMgt23.Model
             Product processProduct = _productService.GetProductById(product.Id);
             ProductName = processProduct.Name.ToString();
             Price = (int)processProduct.PriceInt;
-            Qty = Qty;
+            this.Qty = Qty;
             ProductId = (int)processProduct.Id;
 
             SubTotal = Qty * Price;
+
+            PurchaseDetail = new PurchaseDetail()
+            {
+                ProductId = product.Id,
+                Price = (int)product.PriceInt,
+                Qty = Qty,
+                Total = Qty * (int)product.PriceInt
+            };
 
         }
     }

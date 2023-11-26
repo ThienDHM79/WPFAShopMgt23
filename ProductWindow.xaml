@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFAShopMgt23"
         mc:Ignorable="d"
         Title="ProductWindow" Height="768" Width="1024" Loaded="Window_Loaded">
@@ -10,54 +11,54 @@
         <local:RelativeToAbsoluteConverter x:Key="absoluteConverter"/>
     </Window.Resources>
     <Canvas>
-        <Button x:Name="BackButton" Width="50" Height="50" Background="White" Click="backButton_Click">
+        <Button x:Name="BackButton" Width="70" Height="50" Background="White" Click="backButton_Click">
             <Image Source="/icon/back.png" Width="40" Height="40"></Image>
         </Button>
         <Label Content="Product Management" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" Canvas.Left="384" VerticalAlignment="Center"></Label>
         <StackPanel Canvas.Top="45" Canvas.Left="20" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <Label Content="Product" VerticalAlignment="Center"/>
-                <TextBox x:Name="ProductNameTextBox" Margin="10" Height="40" Width="400" FontSize="14"/>
+                <TextBox x:Name="ProductNameTextBox" Margin="10" Height="40" Width="300" FontSize="14"/>
                 <Label Content="Category" VerticalAlignment="Center"/>
-                <ComboBox x:Name="categoryComboBox" Margin="10" Height="40" Width="150">
+                <ComboBox x:Name="categoryComboBox" Margin="10" Height="40" Width="200">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"></TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button x:Name="searchButton" Click="searchButton_Click" Background="White" BorderThickness="0">
+
+
+                <Button x:Name="searchButton" Click="searchButton_Click" Background="White" 
+                        BorderThickness="0" Width="60" Height="60" Margin="20 0">
                     <Image Source="/icon/search.png" Height="50"></Image>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" >
-                <Button x:Name="AddButton" Click="AddProductButton_Click" Content="Add Product" Height="50" Width="100" 
-                        Background="#0C356A" Foreground="White" FontWeight="Bold"></Button>
-                <Button x:Name="EditButton" IsEnabled="{Binding SelectedItems.Count}" Click="EditProductButton_Click" Content="Edit Product" Margin="200 0 0 0" Height="50" Width="100" 
-                        Background="#ED7D31" FontWeight="Bold"></Button>
-                <Button x:Name="DeleteButton" Click="DeleteProductButton_Click" Content="Delete Product" Margin="300 0 0 0" Height="50" Width="100" 
-                        Background="#C70039" FontWeight="Bold"></Button>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="LowestPriceTextBox"  PreviewTextInput="PreviewInputNum" 
+                         Width="150"
+                         materialDesign:HintAssist.Hint="Gia thap nhat"
+                         materialDesign:HintAssist.IsFloating="True" FontSize="14" Margin="10"></TextBox>
+                <TextBox x:Name="HighestPriceTextBox"  PreviewTextInput="PreviewInputNum" 
+                         Width="150"
+                         materialDesign:HintAssist.Hint="Gia cao nhat"
+                         materialDesign:HintAssist.IsFloating="True" FontSize="14" Margin="10"></TextBox>
+                <Button x:Name="PriceAscButton" Click="PriceAscButton_Click" Content="Gia tang dan" Margin="10"></Button>
+                <Button x:Name="PriceDescButton" Click="PriceDescButton_Click" Content="Gia giam dan" Margin="10"></Button>
             </StackPanel>
-            <ListView x:Name="ProductsListView" SelectionChanged="ProductListView_SelectionChanged" Height="500" Width="860"  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListView x:Name="ProductsListView" SelectionChanged="ProductListView_SelectionChanged" Height="460" Width="960"  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <Image Width="100" Height="100" Source="{Binding ImagePath, Converter={StaticResource absoluteConverter }}"/>
-                            <StackPanel Orientation="Vertical" Height="120" Width="300">
-                                <TextBlock Text="{Binding Name}" Foreground="Blue" Height="20" Margin="5"></TextBlock>
+                            <Image Width="80" Height="80" Source="{Binding ImagePath, Converter={StaticResource absoluteConverter }}"/>
+                            <StackPanel Orientation="Vertical" Height="100" Width="200">
+                                <TextBlock Text="{Binding Name}" Foreground="Blue" Height="40" Margin="5" TextWrapping="Wrap"></TextBlock>
                                 <TextBlock FontWeight="Bold" Margin="5">
                                     <Run>So luong ton: </Run>
                                     <Run Text="{Binding Qty}"></Run>
                                 </TextBlock>
                                 <TextBlock Text="{Binding Price}" Margin="5"></TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="EditProductButton" Background="White" Margin="5 10 30 5">
-                                        <Image Source="/icon/edit.png" Width="20" Height="20"></Image>
-                                    </Button>
-                                    <Button x:Name="DeleteProductButton" Click="DeleteProductButton_Click" Background="White" Margin="5 10 30 5">
-                                        <Image Source="/icon/delete.png" Width="20" Height="20"></Image>
-                                    </Button>
-                                </StackPanel>
                             </StackPanel>
                         </WrapPanel>
                     </DataTemplate>
@@ -69,23 +70,33 @@
                 </ListView.ItemsPanel>
                 <d:ListViewItem>
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="100" Height="100" d:Source="/image/laptop/laptop-1.jpg"/>
+                        <Image Width="80" Height="80" d:Source="/image/laptop/laptop-1.jpg"/>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="laptop dell inspiron 15" Foreground="Blue"></TextBlock>
                             <TextBlock Text="so luong ton" FontWeight="Bold"></TextBlock>
                             <TextBlock Text="gia 10 000 000 VND"></TextBlock>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="EditProductButton" Background="White" Margin="5 10 30 5">
-                                    <Image Source="/icon/edit.png" Width="20"></Image>
-                                </Button>
-                                <Button x:Name="DeleteProductButton" Background="White" Margin="5 10 30 5">
-                                    <Image Source="/icon/delete.png" Width="20"></Image>
-                                </Button>
-                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </d:ListViewItem>
             </ListView>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Canvas.Top="650" Canvas.Left="60">
+            <Button x:Name="AddButton" Click="AddProductButton_Click" Content="Add Product" Height="40" Width="120" 
+                        Background="#0C356A" Foreground="White" FontWeight="Bold"></Button>
+            <Button x:Name="EditButton" IsEnabled="{Binding SelectedItems.Count}" Click="EditProductButton_Click" Content="Edit Product" 
+                        Margin="200 0 0 0" Height="40" Width="120" 
+                        Background="#ED7D31" FontWeight="Bold"></Button>
+            <Button x:Name="DeleteButton" Click="DeleteProductButton_Click" Content="Delete Product" Margin="200 0 0 0" Height="40" Width="150" 
+                        Background="#C70039" FontWeight="Bold"></Button>
+        </StackPanel>
+        <StackPanel Canvas.Top="700" Canvas.Left="300" Orientation="Horizontal">
+            <Button x:Name="FirstButton" Click="FirstPageButton_Click" Content="First" Margin="10 0 10 0"></Button>
+            <Button x:Name="PrevButton" Click="PrevPageButton_Click" Content="Prev" Margin="10 0 10 0"></Button>
+            <Border BorderBrush="Black" BorderThickness="1">
+                <TextBlock x:Name="CurrentPageText" Text="{Binding CurrPage}" Width="50"></TextBlock>
+            </Border>
+            <Button x:Name="NextButton" Click="NextPageButton_Click" Content="Next" Margin="10 0 10 0"></Button>
+            <Button x:Name="LastButton" Click="LastPageButton_Click" Content="Last" Margin="10 0 10 0"></Button>
         </StackPanel>
     </Canvas>
 </Window>
