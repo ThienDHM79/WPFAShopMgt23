@@ -18,6 +18,9 @@
         </ResourceDictionary>
     </Window.Resources>
     <Canvas Margin="0,0,0,1">
+        <Button x:Name="BackButton" Width="70" Height="50" Background="White" Click="backButton_Click">
+            <Image Source="/icon/back.png" Width="40" Height="40"></Image>
+        </Button>
         <Label Content="Search Order" FontSize="16" FontWeight="Bold" Canvas.Left="160" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Border BorderBrush="Black" BorderThickness="1" Canvas.Left="10" Canvas.Top="52">
             <WrapPanel Orientation="Vertical">
@@ -26,8 +29,7 @@
                     KindOfRange="{Binding DateRangeKind}"
                     Orientation="Vertical" />
                 <Button x:Name="SearchOrderButton" Click="SearchOrderButton_Click" Style="{StaticResource MaterialDesignRaisedButton}" Content="Search" Margin="5"></Button>
-                <Button x:Name="ViewDetailButton" Click="ViewOrderButton_Click" Content="View Details" Background="#20c997" Margin="5"></Button>
-
+                
                 <DataGrid x:Name="OrderDataGrid" IsReadOnly="True" ItemsSource="{Binding purchaseList}" AutoGenerateColumns="False" Margin="10" RowHeight="50" Width="400">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Ngay Tao" Binding="{Binding CreatedDate}"></DataGridTextColumn>
@@ -40,7 +42,7 @@
 
         </Border>
 
-        <Label Content="Edit/Delete Order" FontSize="16" FontWeight="Bold" Canvas.Left="660" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Content="Details Order" FontSize="16" FontWeight="Bold" Canvas.Left="660" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Border BorderBrush="Black" BorderThickness="1" Canvas.Left="442" Canvas.Top="10">
             <StackPanel Height="700" Width="536" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="42">
                 <StackPanel x:Name="OrderHeader" Margin="10">
@@ -70,9 +72,15 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Button x:Name="EditOrderButton" Click="EditOrderButton_Click" Content="Edit"  Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#ffc107" Foreground="Black" Width="100" Canvas.Left="442" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
-        <Button x:Name="DeleteOrderButton" Click="DeleteOrderButton_Click" Content="Delete" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#dc3545" Foreground="Black" Width="100"  Canvas.Left="160" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
-        <Button Content="Save" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#20c997" Foreground="Black" Width="100" Canvas.Left="630" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Center"></Button>
-        <Button x:Name="CancelEditButton" Click="CancelEditButon_Click" Content="Cancel" Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#adb5bd" Foreground="Black" Width="100" Canvas.Left="803" Canvas.Top="782" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
-    </Canvas>
+        <StackPanel Orientation="Horizontal" Canvas.Bottom="20" Canvas.Left="100">
+            <Button x:Name="ViewDetailButton" Click="ViewOrderButton_Click" Content="View Details" 
+                    Background="#20c997" Margin="5 0 150 0"></Button>
+            <Button x:Name="EditOrderButton" Click="EditOrderButton_Click" Content="Edit"  
+                    Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#ffc107" 
+                    Foreground="Black" Width="100" Margin="5 0 150 0"></Button>
+            <Button x:Name="DeleteOrderButton" Click="DeleteOrderButton_Click" Content="Delete" 
+                    Style="{StaticResource MaterialDesignFlatAccentButton}" Background="#dc3545" 
+                    Foreground="Black" Width="100" Margin="5 0 100 0"></Button>
+        </StackPanel>
+            </Canvas>
 </Window>

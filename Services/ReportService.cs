@@ -78,5 +78,31 @@ namespace WPFAShopMgt23.Services
             dict.Add("DateTo", DateTo);
             return dict;
         }
+
+        public Dictionary<string,int> GetTopReportList(DateTime DateFrom, DateTime DateTo, int limit = 5)
+        {
+            List<PurchaseDetail> DetailList = new List<PurchaseDetail>(_orderService.GetDetailsbyDateRange(DateFrom,DateTo));
+            var ProductIdList = DetailList.Select(d => d.ProductId).Distinct().ToList();
+            Dictionary<int, int> ReportList = new Dictionary<int, int>();
+            foreach (var productid in ProductIdList)
+            {
+                ReportList.Add((int)productid, 0);
+            }
+            foreach(var line in DetailList)
+            {
+                if (line.ProductId != null)
+                {
+                    ReportList[(int)line.ProductId] += (int)((line.Qty == null) ? 0:line.Qty );
+                }
+
+            }
+            var reportItems = ReportList.OrderByDescending(p => p.Value).ToList();
+            Dictionary<string,int> ReportNameQty = new Dictionary<string,int>();
+            foreach (var  item in reportItems)
+            {
+                ReportNameQty.Add(_productService.GetProductById(item.Key).Name, item.Value);
+            }
+            return ReportNameQty;
+        }
     }
 }

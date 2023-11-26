@@ -28,10 +28,9 @@ namespace WPFAShopMgt23
         CustomerService customerService;
         ProductService productService;
 
-        Purchase editingPurchase;
-
         DateTime DateFrom;
         DateTime DateTo;
+        Purchase _purchase;
         public OrderWindow()
         {
             InitializeComponent();
@@ -121,30 +120,34 @@ namespace WPFAShopMgt23
                 foreach(var line in PurchaseLineList)
                 {
                     line.Product = productService.GetProductById((int)line.ProductId);
+                    //add vao detail list de view. xoa khi edit
+                    SelectedPurchase.PurchaseDetails.Add(line);
                 }
                 PurchaseItemGrid.ItemsSource = PurchaseLineList;
+                _purchase = SelectedPurchase;
             }
+
             this.DataContext = SelectedPurchase;
         }
 
         private void EditOrderButton_Click(object sender, RoutedEventArgs e)
         {
-            //!!! error update source also
-            editingPurchase = OrderDataGrid.SelectedItem as Purchase;
-            EnableText(true);
-        }
-
-        private void CancelEditButon_Click(object sender, RoutedEventArgs e)
-        {
             
-            CreateDatePurchasePicker.Text = string.Empty;
-            PurchaseCustomerNameTextBox.Text = string.Empty;
-            PurchaseAddressTextBox.Text = string.Empty;
-            PurchasePhoneNumTextBox.Text = string.Empty;
-            
-            PurchaseItemGrid.ItemsSource = new List<PurchaseDetail>();
-            EnableText(false);
-            ViewOrderDetails(new Purchase());
+            Debug.WriteLine($"selected id {_purchase.Id}");
+            if (_purchase == null)
+            {
+                MessageBox.Show("Pls Re-Select Order");
+                _purchase = OrderDataGrid.SelectedItem as Purchase;
+            }
+            if (_purchase != null)
+            {
+                var EditPurchaseScreen = new OrderEditWindow(_purchase);
+                if (EditPurchaseScreen.ShowDialog() == true)
+                {
+                    _purchase = (Purchase)EditPurchaseScreen.EditingPurchase.Clone();
+                };
+            }
+            _LoadAllOrders();
         }
 
         private void DeleteOrderButton_Click(object sender, RoutedEventArgs e)
@@ -164,6 +167,13 @@ namespace WPFAShopMgt23
                 }
                 _LoadAllOrders();
             }
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainScreen = new MainWindow();
+            mainScreen.Show();
+            this.Close();
         }
     }
 }

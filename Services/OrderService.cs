@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,19 @@ namespace WPFAShopMgt23.Services
     public class OrderService
     {
         private readonly ShopDbContext _dbcontext;
+        CustomerService _customerService;
         public OrderService (ShopDbContext context)
         {
             _dbcontext = context;
+            _customerService = new CustomerService(context);
         }
         public List<Purchase> GetAllPurchases()
         {
             return new List<Purchase>(_dbcontext.Purchases.ToList());
+        }
+        public Purchase GetPurchaseById(int id)
+        {
+            return _dbcontext.Purchases.AsNoTracking().First(pur => pur.Id == id);
         }
         public List<PurchaseDetail> GetDetailsFromPurchaseId(int purchaseId)
         {
@@ -43,6 +50,11 @@ namespace WPFAShopMgt23.Services
                 { DetailsList.AddRange(OneDetailList); }
             }
             return DetailsList;
+        }
+        public int? GetCustomerIdByPurchaseId(int purchaseId)
+        {
+            int? CustomerId = (int?)_dbcontext.Purchases.First(pur => pur.Id == purchaseId).CustomerId;
+            return CustomerId;
         }
 
     }

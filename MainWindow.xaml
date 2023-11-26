@@ -36,6 +36,19 @@
                 </lvc:PieChart.DataTooltip>
             </lvc:PieChart>
         </WrapPanel>
+        <WrapPanel Orientation="Vertical" Canvas.Right="20" Canvas.Top="90">
+            <WrapPanel Orientation="Horizontal">
+                <rh:DateRangePicker x:Name="TopSaleDatePicker" Orientation="Vertical"></rh:DateRangePicker>
+                <Button x:Name="ViewTopRngButton" Click="ViewTopRngButton_Click" Content="View" Margin="20 0 0 0"></Button>
+            </WrapPanel>
+            <DataGrid x:Name="TopSaleRngDataGrid" ItemsSource="{Binding TopSaleList}" AutoGenerateColumns="False" 
+                      IsReadOnly="True" Margin="0 50 0 0" Width="450">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding Key}" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Qty" Binding="{Binding Value}" ></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </WrapPanel>
         <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product Management" Height="50" Width="200" FontSize="16" Background="#4fc4cf" Canvas.Left="737" Canvas.Top="10"></Button>
 
     </Canvas>

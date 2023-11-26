@@ -80,5 +80,11 @@ namespace WPFAShopMgt23
             Debug.WriteLine(daterange["DateTo"]);
 
         }
+
+        private void ViewTopRngButton_Click(object sender, RoutedEventArgs e)
+        {
+            var TopSaleList = _reportService.GetTopReportList(TopSaleDatePicker.From, TopSaleDatePicker.To);
+            TopSaleRngDataGrid.ItemsSource = TopSaleList;
+        }
     }
 }

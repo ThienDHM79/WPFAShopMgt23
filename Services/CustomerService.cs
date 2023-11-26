@@ -19,8 +19,8 @@ namespace WPFAShopMgt23.Services
         {
             return new List<Customer>(_dbcontext.Customers.ToList());
         }
-        public Customer? GetCustomerById(int id) {
-            return _dbcontext.Customers.First(c=>c.Id == id) != null ? null : _dbcontext.Customers.AsNoTracking().First(c => c.Id == id);
+        public Customer GetCustomerById(int id) {
+            return _dbcontext.Customers.AsNoTracking().First(c => c.Id == id);
         }
     }
 }
