@@ -76,8 +76,8 @@ namespace WPFAShopMgt23
             Debug.WriteLine(reportPara.WeekNum);
             var daterange = _reportService.GetDateRangeFromWeek(reportPara.WeekNum, 2023);
             WeekPieChart.Series = _reportService.GetSaleSeries(daterange["DateFrom"], daterange["DateTo"]);
-            Debug.WriteLine(daterange["DateFrom"]);
-            Debug.WriteLine(daterange["DateTo"]);
+            //Debug.WriteLine(daterange["DateFrom"]);
+            //Debug.WriteLine(daterange["DateTo"]);
 
         }
 
@@ -85,6 +85,46 @@ namespace WPFAShopMgt23
         {
             var TopSaleList = _reportService.GetTopReportList(TopSaleDatePicker.From, TopSaleDatePicker.To);
             TopSaleRngDataGrid.ItemsSource = TopSaleList;
+        }
+
+        private void ViewMonthChartButton_Click(object sender, RoutedEventArgs e)
+        {
+            SalesReport reportPara;
+            if (!string.IsNullOrEmpty(MonthTextBox.Text) && !string.IsNullOrEmpty(YearTextBox.Text))
+            {
+                reportPara = new SalesReport(null, int.Parse(MonthTextBox.Text), int.Parse(YearTextBox.Text));
+                var daterange = _reportService.GetDateRangeFromMonth(reportPara.MonthNum, reportPara.YearNum);
+                MonthPieChart.Series = _reportService.GetSaleSeries(daterange["DateFrom"], daterange["DateTo"]);
+
+            }
+        }
+
+        private void ViewMonthTopButton_Click(object sender, RoutedEventArgs e)
+        {
+            SalesReport reportPara;
+            if (!string.IsNullOrEmpty(MonthTopTextBox.Text) && !string.IsNullOrEmpty(YearTopTextBox.Text))
+            {
+                reportPara = new SalesReport(null, int.Parse(MonthTopTextBox.Text), int.Parse(YearTopTextBox.Text));
+            }
+            else
+            {
+                reportPara = new SalesReport(null, null, null);
+            }
+            var daterange = _reportService.GetDateRangeFromMonth(reportPara.MonthNum, reportPara.YearNum);
+            var TopMonthSaleList = _reportService.GetTopReportList(daterange["DateFrom"], daterange["DateTo"]);
+            TopMonthSaleDataGrid.ItemsSource = TopMonthSaleList;
+            Debug.WriteLine(MonthTopTextBox.Text);
+            Debug.WriteLine(YearTopTextBox.Text);
+            Debug.WriteLine(daterange["DateFrom"]);
+            Debug.WriteLine(daterange["DateTo"]);
+
+        }
+
+        private void CheckOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var CheckOrderScreen = new OrderWindow();
+            CheckOrderScreen.Show();
+            this.Close();
         }
     }
 }

@@ -30,7 +30,8 @@
                     Orientation="Vertical" />
                 <Button x:Name="SearchOrderButton" Click="SearchOrderButton_Click" Style="{StaticResource MaterialDesignRaisedButton}" Content="Search" Margin="5"></Button>
                 
-                <DataGrid x:Name="OrderDataGrid" IsReadOnly="True" ItemsSource="{Binding purchaseList}" AutoGenerateColumns="False" Margin="10" RowHeight="50" Width="400">
+                <DataGrid x:Name="OrderDataGrid" IsReadOnly="True" ItemsSource="{Binding purchaseList}" 
+                          AutoGenerateColumns="False" Margin="10" RowHeight="40" Width="400" MaxHeight="300">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Ngay Tao" Binding="{Binding CreatedDate}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Ten KH" Binding="{Binding Customer.Name }"></DataGridTextColumn>
@@ -72,6 +73,25 @@
                 </StackPanel>
             </StackPanel>
         </Border>
+        <StackPanel Canvas.Top="700" Canvas.Left="100" Orientation="Horizontal">
+            <Button x:Name="PrevButton" Click="PrevButton_Click"  Content="Prev" Margin="10 0 10 0"></Button>
+            <ComboBox x:Name="pagesCombobox" SelectionChanged="pagesComboBox_SelectionChanged" Width="100" Height="35">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding Index, Mode=OneTime}"></Run>/
+                            <Run Text="{Binding Total, Mode=OneTime}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="NextButton" Click="NextButton_Click" Content="Next" Margin="10 0 10 0"></Button>
+        </StackPanel>
+        <TextBlock x:Name="Diplaying" Canvas.Left="209" Canvas.Top="752">
+            <Run Text="{Binding CurrentTotalItems}" d:Text="10"/>
+            /
+            <Run Text="{Binding TotalItems}" d:Text="100"/>
+        </TextBlock>
         <StackPanel Orientation="Horizontal" Canvas.Bottom="20" Canvas.Left="100">
             <Button x:Name="ViewDetailButton" Click="ViewOrderButton_Click" Content="View Details" 
                     Background="#20c997" Margin="5 0 150 0"></Button>

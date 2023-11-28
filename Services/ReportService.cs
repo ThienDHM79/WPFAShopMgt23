@@ -2,6 +2,7 @@
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Microsoft.Identity.Client;
+using Rh.DateRange.Picker.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -78,7 +79,16 @@ namespace WPFAShopMgt23.Services
             dict.Add("DateTo", DateTo);
             return dict;
         }
-
+        public Dictionary<string, DateTime> GetDateRangeFromMonth(int month, int year)
+        {
+            var DateFrom = new DateTime(year,month,1);
+            var DateTo = DateFrom.AddMonths(1).AddSeconds(-1);
+           
+            var dict = new Dictionary<string, DateTime>();
+            dict.Add("DateFrom", DateFrom);
+            dict.Add("DateTo", DateTo);
+            return dict;
+        }
         public Dictionary<string,int> GetTopReportList(DateTime DateFrom, DateTime DateTo, int limit = 5)
         {
             List<PurchaseDetail> DetailList = new List<PurchaseDetail>(_orderService.GetDetailsbyDateRange(DateFrom,DateTo));

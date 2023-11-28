@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +33,10 @@ namespace WPFAShopMgt23
         DateTime DateFrom;
         DateTime DateTo;
         Purchase _purchase;
+
+        PagingInfo _paging;
+
+
         public OrderWindow()
         {
             InitializeComponent();
@@ -56,12 +62,41 @@ namespace WPFAShopMgt23
             }
             OrderDataGrid.ItemsSource = purchaseList;
         }
-        private void _LoadAllOrders()
-        {
-            List<Purchase> purchaseList = orderService.GetAllPurchases();
-            LoadOrdersGrid(purchaseList);
-        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _paging = new PagingInfo()
+            {
+                CurrentPage = 1,
+                RowsPerPage = 5
+            };
+
+            _LoadCurrentPageOrders();
+            var infos = new ObservableCollection<object>();
+            for (int i = 1; i <= _paging.TotalPages; i++)
+            {
+                infos.Add(new
+                {
+                    Index = i,
+                    Total = _paging.TotalPages,
+                });
+            }
+            pagesCombobox.ItemsSource = infos;
+            pagesCombobox.SelectedIndex = 0;
+            EnableText(false);
+
+        }
+        private void _LoadCurrentPageOrders()
+        {
+            
+            _paging.TotalItems = orderService.GetPurchaseCount();
+            int skip = (_paging.CurrentPage - 1) * (_paging.RowsPerPage);
+            List<Purchase> purchaseList = orderService.GetOrdersByPage(skip, _paging.RowsPerPage);
+            LoadOrdersGrid(purchaseList);
+
+            _paging.TotalCurrentItems = purchaseList.Count;
+
+        }
         private void SearchOrderButton_Click(object sender, RoutedEventArgs e)
         {
             DateFrom = OrderDatePicker.From;
@@ -90,12 +125,6 @@ namespace WPFAShopMgt23
 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            _LoadAllOrders();
-            EnableText(false);
-            
-        }
         private void ViewOrderDetails(Purchase purchase) {
             if (purchase != null)
             {
@@ -147,7 +176,7 @@ namespace WPFAShopMgt23
                     _purchase = (Purchase)EditPurchaseScreen.EditingPurchase.Clone();
                 };
             }
-            _LoadAllOrders();
+            _LoadCurrentPageOrders();
         }
 
         private void DeleteOrderButton_Click(object sender, RoutedEventArgs e)
@@ -165,7 +194,7 @@ namespace WPFAShopMgt23
                         _db.SaveChanges();
                     }
                 }
-                _LoadAllOrders();
+                _LoadCurrentPageOrders();
             }
         }
 
@@ -174,6 +203,36 @@ namespace WPFAShopMgt23
             var mainScreen = new MainWindow();
             mainScreen.Show();
             this.Close();
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            loadNextPage();
+        }
+
+        private void loadNextPage()
+        {
+            if (_paging.CurrentPage < _paging.TotalPages)
+            {
+                _paging.CurrentPage++;
+                _LoadCurrentPageOrders();
+            }
+        }
+
+        private void pagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int i = pagesCombobox.SelectedIndex;
+            _paging.CurrentPage = i+1;
+            _LoadCurrentPageOrders();
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_paging.CurrentPage > 1)
+            {
+                _paging.CurrentPage--;
+                _LoadCurrentPageOrders();
+            }
         }
     }
 }

@@ -9,8 +9,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Canvas>
-        <Button x:Name="OrderMgtButton" Click="OrderButton_Click" Content="Order Management" Foreground="white" FontSize="16" Background="#0c356a" Height="50" Width="200"  Canvas.Left="100" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
-        <WrapPanel Width="460" Orientation="Vertical" Canvas.Top="90" Margin="10 0 0 10">
+        <Button x:Name="OrderMgtButton" Click="OrderButton_Click" Content="Add Order" Foreground="white" FontSize="14" 
+                Background="#0c356a" Height="50" Width="120"  Canvas.Left="10" Canvas.Top="150" HorizontalAlignment="Center" VerticalAlignment="Top"></Button>
+        <Label Content="Sale per Category" FontSize="16" FontWeight="Bold" Canvas.Left="279" Canvas.Top="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <WrapPanel Width="400" Orientation="Vertical" Canvas.Top="50" Margin="10 0 0 10" Canvas.Left="140">
             <WrapPanel Orientation="Horizontal">
                 <rh:DateRangePicker x:Name="OrderDatePicker"
                     KindOfRange="{Binding DateRangeKind}"
@@ -23,7 +26,7 @@
                     <lvc:DefaultTooltip BulletSize="14"/>
                 </lvc:PieChart.DataTooltip>
             </lvc:PieChart>
-            
+
             <WrapPanel Orientation="Horizontal">
                 <Label Content="Week" FontWeight="Bold"></Label>
                 <TextBox x:Name="WeekTextBox" PreviewTextInput="PreviewTextInputNum" Text="46" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
@@ -35,21 +38,52 @@
                     <lvc:DefaultTooltip BulletSize="14"/>
                 </lvc:PieChart.DataTooltip>
             </lvc:PieChart>
+            <WrapPanel Orientation="Horizontal">
+                <Label Content="Month" FontWeight="Bold"></Label>
+                <TextBox x:Name="MonthTextBox" PreviewTextInput="PreviewTextInputNum" Text="11" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
+                <Label Content="Year" FontWeight="Bold"></Label>
+                <TextBox x:Name="YearTextBox" PreviewTextInput="PreviewTextInputNum" Text="2023" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
+                <Button x:Name="ViewMonthButton" Click="ViewMonthChartButton_Click" Content="View" Margin="100 0 0 0"></Button>
+            </WrapPanel>
+            <lvc:PieChart x:Name="MonthPieChart" Series="{Binding SalesCollection}" Width="150" Height="150"
+                          LegendLocation="Top">
+                <lvc:PieChart.DataTooltip>
+                    <lvc:DefaultTooltip BulletSize="14"/>
+                </lvc:PieChart.DataTooltip>
+            </lvc:PieChart>
         </WrapPanel>
-        <WrapPanel Orientation="Vertical" Canvas.Right="20" Canvas.Top="90">
+        <Label Content="Top 5 Sale" FontSize="16" FontWeight="Bold" Canvas.Left="737" Canvas.Top="16"></Label>
+        <WrapPanel Orientation="Vertical" Canvas.Right="20" Canvas.Top="50">
             <WrapPanel Orientation="Horizontal">
                 <rh:DateRangePicker x:Name="TopSaleDatePicker" Orientation="Vertical"></rh:DateRangePicker>
-                <Button x:Name="ViewTopRngButton" Click="ViewTopRngButton_Click" Content="View" Margin="20 0 0 0"></Button>
+                <Button x:Name="ViewTopRngButton" Click="ViewTopRngButton_Click" Content="View" Margin="10 0 0 0"></Button>
             </WrapPanel>
             <DataGrid x:Name="TopSaleRngDataGrid" ItemsSource="{Binding TopSaleList}" AutoGenerateColumns="False" 
-                      IsReadOnly="True" Margin="0 50 0 0" Width="450">
+                      IsReadOnly="True" Margin="0 10 0 0" Width="450">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product Name" Binding="{Binding Key}" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Qty" Binding="{Binding Value}" ></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <WrapPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <Label Content="Month"/>
+                <TextBox x:Name="MonthTopTextBox" PreviewTextInput="PreviewTextInputNum" Text="11" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
+                <Label Content="Year"/>
+                <TextBox x:Name="YearTopTextBox" PreviewTextInput="PreviewTextInputNum" Text="2023" Width="50" TextAlignment="Center" Margin="10 0"></TextBox>
+
+                <Button x:Name="ViewMonthTopButton" Click="ViewMonthTopButton_Click" Content="View" Margin="20 0 0 0"></Button>
+            </WrapPanel>
+            <DataGrid x:Name="TopMonthSaleDataGrid" ItemsSource="{Binding TopMonthSaleList}" AutoGenerateColumns="False" 
+                      IsReadOnly="True" Margin="0 10 0 0" Width="450">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Product Name" Binding="{Binding Key}" ></DataGridTextColumn>
                     <DataGridTextColumn Header="Qty" Binding="{Binding Value}" ></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </WrapPanel>
-        <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product Management" Height="50" Width="200" FontSize="16" Background="#4fc4cf" Canvas.Left="737" Canvas.Top="10"></Button>
+        <Button x:Name="ProductMgtButton" Click="ProductButton_Click" Content="Product" Height="50" Width="120" FontSize="16" Background="#4fc4cf" Canvas.Left="10" Canvas.Top="524"></Button>
+        <Button x:Name="CheckOrderButton" Click="CheckOrderButton_Click" Content="Check Order" Foreground="white" FontSize="14" 
+            Background="#0c356a" Height="50" Width="120"  Canvas.Left="10" Canvas.Top="224" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
     </Canvas>
 </Window>

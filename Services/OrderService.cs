@@ -57,5 +57,13 @@ namespace WPFAShopMgt23.Services
             return CustomerId;
         }
 
+        public List<Purchase> GetOrdersByPage(int skip, int RowsPerPage = 5)
+        {
+            return _dbcontext.Purchases.Skip(skip).Take(RowsPerPage).ToList();
+        }
+        public int GetPurchaseCount()
+        {
+        return _dbcontext.Purchases.Count();
+        }
     }
 }

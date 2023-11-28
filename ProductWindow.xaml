@@ -89,14 +89,12 @@
             <Button x:Name="DeleteButton" Click="DeleteProductButton_Click" Content="Delete Product" Margin="200 0 0 0" Height="40" Width="150" 
                         Background="#C70039" FontWeight="Bold"></Button>
         </StackPanel>
-        <StackPanel Canvas.Top="700" Canvas.Left="300" Orientation="Horizontal">
-            <Button x:Name="FirstButton" Click="FirstPageButton_Click" Content="First" Margin="10 0 10 0"></Button>
-            <Button x:Name="PrevButton" Click="PrevPageButton_Click" Content="Prev" Margin="10 0 10 0"></Button>
-            <Border BorderBrush="Black" BorderThickness="1">
-                <TextBlock x:Name="CurrentPageText" Text="{Binding CurrPage}" Width="50"></TextBlock>
-            </Border>
+        <StackPanel Canvas.Top="700" Canvas.Left="350" Orientation="Horizontal">
+                       <Button x:Name="PrevButton" Click="PrevPageButton_Click" Content="Prev" Margin="10 0 10 0"></Button>
+            <ComboBox x:Name="PagesButton" Width="100" Height="35">
+                
+            </ComboBox>
             <Button x:Name="NextButton" Click="NextPageButton_Click" Content="Next" Margin="10 0 10 0"></Button>
-            <Button x:Name="LastButton" Click="LastPageButton_Click" Content="Last" Margin="10 0 10 0"></Button>
         </StackPanel>
     </Canvas>
 </Window>
