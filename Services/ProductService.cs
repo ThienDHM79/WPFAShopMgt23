@@ -56,14 +56,18 @@ namespace WPFAShopMgt23.Services
                                 .Where(p => p.CatId == CategoryKey).ToList();
         }
         
-        public List<Product> GetProductsByPage(int currPage, int PageSize = 8)
-        {
-            return _dbcontext.Products.Skip((currPage - 1) * PageSize).Take(PageSize).ToList();
-        }
-
         public int GetCateIdByProductId(int ProductId)
         {
             return (int)_dbcontext.Products.First(p => p.Id == ProductId).CatId;
+        }
+
+        public int GetProductCount()
+        {
+            return _dbcontext.Products.Count();
+        }
+        public List<Product> GetProductsByPage(int skip, int RowsPerPage)
+        {
+            return _dbcontext.Products.Skip(skip).Take(RowsPerPage).ToList();
         }
     }
 }

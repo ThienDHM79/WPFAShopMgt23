@@ -39,8 +39,6 @@ namespace WPFAShopMgt23
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            var checkOrderScreen = new OrderWindow();
-            checkOrderScreen.Show();
             this.Close();
         }
 
@@ -141,5 +139,9 @@ namespace WPFAShopMgt23
 
         }
 
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

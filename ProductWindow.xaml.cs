@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace WPFAShopMgt23
         ProductService _productService;
         Product _product; // cho editing
 
-        public int CurrPage = 1; // phan trang
+        PagingInfo _paging;
         public ProductWindow()
         {
             InitializeComponent();
@@ -36,14 +37,29 @@ namespace WPFAShopMgt23
             _db = new ShopDbContext();
             //initiate service
             _productService = new ProductService(_db);
-
-            this.DataContext = CurrPage;
         }
         BindingList<Product> _products;
         BindingList<Category> _categories;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _LoadPage(1);
+            _paging = new PagingInfo()
+            {
+                CurrentPage = 1,
+                RowsPerPage = 10
+            };
+            _loadCurrentPageProducts();
+
+            var infos = new ObservableCollection<object>();
+            for (int i = 1; i <= _paging.TotalPages; i++)
+            {
+                infos.Add(new
+                {
+                    Index = i,
+                    Total = _paging.TotalPages,
+                });
+            }
+            pagesCombobox.ItemsSource = infos;
+            pagesCombobox.SelectedIndex = 0;
 
             _categories = new BindingList<Category>(_db.Categories.ToList());
             categoryComboBox.ItemsSource = _categories;
@@ -58,8 +74,6 @@ namespace WPFAShopMgt23
             //default disable edit, delete before select
             EditButton.IsEnabled = false;
             DeleteButton.IsEnabled = false;
-
-            this.DataContext = CurrPage;
         }
 
         private void _LoadPage(int currPage)
@@ -67,10 +81,13 @@ namespace WPFAShopMgt23
             ProductsListView.ItemsSource = _productService.GetProductsByPage(currPage,12);
         }
 
-        private void _loadAllProducts()
+        private void _loadCurrentPageProducts()
         {
-            _products = new BindingList<Product>(_productService.GetAllProducts());
-            ProductsListView.ItemsSource = _products;
+            _paging.TotalItems = _productService.GetProductCount();
+            int skip = (_paging.CurrentPage - 1) * (_paging.RowsPerPage);
+            List<Product> productList = _productService.GetProductsByPage(skip, _paging.RowsPerPage);
+            ProductsListView.ItemsSource = productList;
+            _paging.TotalCurrentItems = productList.Count;
         }
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
@@ -166,7 +183,7 @@ namespace WPFAShopMgt23
                         _db.SaveChanges();
                     }
                 }
-                _loadAllProducts();
+                _loadCurrentPageProducts();
             }
 
         }
@@ -194,29 +211,7 @@ namespace WPFAShopMgt23
 
 
         PaginationView paginate = new PaginationView();
-        private void FirstPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            _LoadPage(1);
-        }
-        private void NextPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            CurrPage++;
-            _LoadPage(CurrPage);
-        }
-        private void PrevPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            while (CurrPage >=2)
-            {
-                CurrPage--;
-                _LoadPage(CurrPage);
-            }
-        }
-        private void LastPageButton_Click(object sender, RoutedEventArgs e)
-        {
-            var ProductList = _productService.GetAllProducts();
-            paginate = new PaginationView(ProductList);
-            _LoadPage(paginate.TotalPage);
-        }
+
 
         private void PreviewInputNum(object sender, TextCompositionEventArgs e)
         {
@@ -233,6 +228,29 @@ namespace WPFAShopMgt23
         {
             var curList = ProductsListView.Items.Cast<Product>().OrderByDescending(p => p.PriceInt).ToList();
             ProductsListView.ItemsSource = curList;
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_paging.CurrentPage < _paging.TotalPages)
+            {
+                _paging.CurrentPage++;
+                _loadCurrentPageProducts();
+            }
+        }
+        private void PrevPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_paging.CurrentPage > 1)
+            {
+                _paging.CurrentPage--;
+                _loadCurrentPageProducts();
+            }
+        }
+        private void pagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int i = pagesCombobox.SelectedIndex;
+            _paging.CurrentPage = i + 1;
+            _loadCurrentPageProducts();
         }
     }
 }

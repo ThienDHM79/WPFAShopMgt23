@@ -62,7 +62,11 @@ namespace WPFAShopMgt23
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            DateTime DateFrom = DateTime.Today.AddMonths(-1).AddSeconds(1);
+            DateTime DateTo = DateTime.Now;
+            DateRangePieChart.Series = _reportService.GetSaleSeries(DateFrom, DateTo);
+            MonthPieChart.Series = _reportService.GetSaleSeries(DateFrom, DateTo);
+            TopMonthSaleDataGrid.ItemsSource = _reportService.GetTopReportList(DateFrom, DateTo);
         }
 
         private void PreviewTextInputNum(object sender, TextCompositionEventArgs e)
@@ -113,10 +117,6 @@ namespace WPFAShopMgt23
             var daterange = _reportService.GetDateRangeFromMonth(reportPara.MonthNum, reportPara.YearNum);
             var TopMonthSaleList = _reportService.GetTopReportList(daterange["DateFrom"], daterange["DateTo"]);
             TopMonthSaleDataGrid.ItemsSource = TopMonthSaleList;
-            Debug.WriteLine(MonthTopTextBox.Text);
-            Debug.WriteLine(YearTopTextBox.Text);
-            Debug.WriteLine(daterange["DateFrom"]);
-            Debug.WriteLine(daterange["DateTo"]);
 
         }
 
