@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFAShopMgt23", "WPFAShopMgt23.csproj", "{9EE51F74-2240-421E-A7DD-7A030D0BE1C9}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WPFAppShop2023Setup", "..\WPFAppShop2023Setup\WPFAppShop2023Setup.vdproj", "{2055D2BE-9286-4A4A-90A6-F3655B6205BC}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupWPFShop", "..\SetupWPFShop\SetupWPFShop.vdproj", "{E5BE635B-9858-4C74-86F3-C5F7BCEF6EB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{9EE51F74-2240-421E-A7DD-7A030D0BE1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE51F74-2240-421E-A7DD-7A030D0BE1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE51F74-2240-421E-A7DD-7A030D0BE1C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2055D2BE-9286-4A4A-90A6-F3655B6205BC}.Debug|Any CPU.ActiveCfg = Debug
-		{2055D2BE-9286-4A4A-90A6-F3655B6205BC}.Release|Any CPU.ActiveCfg = Release
+		{E5BE635B-9858-4C74-86F3-C5F7BCEF6EB4}.Debug|Any CPU.ActiveCfg = Debug
+		{E5BE635B-9858-4C74-86F3-C5F7BCEF6EB4}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
